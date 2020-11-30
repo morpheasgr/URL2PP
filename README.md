@@ -11,4 +11,4 @@ USAGE:
 
 Supported file types: mp4, mkv, avi, mpg, mpeg, ogg, wmv, m2ts, mts, ts, mov, rm, rmvb, m4v, vob, webm, flv, 3gp
 
-Only links to the actual file are supported.
+Only links to actual files are supported. Don't try to use this with file-hosting sites.
