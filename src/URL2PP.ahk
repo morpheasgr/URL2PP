@@ -7,7 +7,9 @@ clipboard := ""
 OnClipboardChange("ClipChanged")
 ClipChanged() {
 copiedtext=%clipboard%
-if RegExMatch(copiedtext, "^https?:\/\/.*\.(mp4|mkv|avi|mpg|mpeg|ogg|wmv|m2ts|mts|ts|mov|rm|rmvb|m4v|vob|webm|flv|3gp)$")
+if RegExMatch(copiedtext, "( |\t)")
+return
+else if RegExMatch(copiedtext, "^https?:\/\/.*\.(mp4|mkv|avi|mpg|mpeg|ogg|wmv|m2ts|mts|ts|mov|rm|rmvb|m4v|vob|webm|flv|3gp)$")
 {
 RegRead, PotPlayerPath, HKEY_LOCAL_MACHINE, SOFTWARE\DAUM\PotPlayer64, ProgramPath
 if WinExist("ahk_exe PotPlayerMini64.exe")
