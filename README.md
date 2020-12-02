@@ -4,6 +4,8 @@ This is entirely written and compiled into a binary using AutoHotKey.
 
 Download: Go to [Releases section](https://github.com/morpheasgr/URL2PP/releases), download URL2PP.zip from assets. Source-code included.
 
+Prerequisites: PotPlayer **64-bit**. Download from [official site](https://potplayer.daum.net/). (Select 64-bit Download)
+
 USAGE:
 1. Unzip
 2. Run URL2PP.exe
