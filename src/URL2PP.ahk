@@ -1,9 +1,14 @@
 #NoEnv
 SetWorkingDir %A_ScriptDir%
 #SingleInstance ignore
+clipboard := ""
+global copiedtext := ""
 #Persistent
 OnClipboardChange("ClipChanged")
+
 ClipChanged() {
+if copiedtext = %clipboard%
+return
 copiedtext=%clipboard%
 if RegExMatch(copiedtext, "( |\t)") ; spaces in clipboard content
 return
