@@ -19,7 +19,7 @@ ClipChanged()
 		if ErrorLevel
 		{
 			MsgBox, PotPlayer is either not installed or it's not the 64-bit version.
-			return
+			ExitApp
 		}
 		if WinExist("ahk_exe PotPlayerMini64.exe")
 			Run %PotPlayerPath% "%clipboard%" /add /current
@@ -42,17 +42,28 @@ ClipChanged()
 		}
 		Sort, temp, \
 		sortedString := StrReplace(temp,"\","/")
-		LinkArray := StrSplit(sortedString,"`r`n")
+		URLArray := StrSplit(sortedString,"`r`n")
+		FilenameArray := []
+		Loop % URLArray.MaxIndex()
+		{
+			inVar := URLArray[A_Index]
+			SplitPath, inVar, outVar
+			FilenameArray[A_Index] := outVar
+		}
+		LinkArray := {}
+		Loop, % FilenameArray.MaxIndex()
+			LinkArray[FilenameArray[A_Index]] := URLArray[A_Index]
 		RegRead, PotPlayerPath, HKEY_LOCAL_MACHINE, SOFTWARE\DAUM\PotPlayer64, ProgramPath
 		if ErrorLevel
 		{
 			MsgBox, PotPlayer is either not installed or it's not the 64-bit version.
-			return
+			ExitApp
 		}
-		Loop % LinkArray.MaxIndex()
+		counter=0
+		for Filename, URL in LinkArray
 		{
-			this_link := LinkArray[A_Index]
-			if A_Index = 1
+			this_link := URL
+			if counter = 0
 			{
 				if !WinExist("ahk_exe PotPlayerMini64.exe")
 					Run %PotPlayerPath% "%this_link%" /add ; starting playback while adding multiple URLs currently causes issues in PotPlayer
@@ -67,8 +78,9 @@ ClipChanged()
 				Sleep, 500
 			}
 			else
-			Run %PotPlayerPath% "%this_link%" /add /current
+				Run %PotPlayerPath% "%this_link%" /add /current
 			Sleep, 750
+			counter++
 		}
 	}
 }
