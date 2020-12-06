@@ -3,6 +3,14 @@ SetWorkingDir %A_ScriptDir%
 #SingleInstance ignore
 clipboard := ""
 global copiedtext := ""
+global PotPlayerPath := ""
+RegRead, PotPlayerPath, HKEY_LOCAL_MACHINE, SOFTWARE\DAUM\PotPlayer64, ProgramPath
+if ErrorLevel
+{
+	MsgBox, PotPlayer is either not installed or it's not the 64-bit version.
+	ExitApp
+}
+
 #Persistent
 OnClipboardChange("ClipChanged")
 
@@ -21,6 +29,7 @@ ClipChanged()
 			MsgBox, PotPlayer is either not installed or it's not the 64-bit version.
 			ExitApp
 		}
+		TrayTip , URL2PP, % "Adding link to PotPlayer..." , 10
 		if WinExist("ahk_exe PotPlayerMini64.exe")
 			Run %PotPlayerPath% "%clipboard%" /add /current
 		else
@@ -53,12 +62,12 @@ ClipChanged()
 		LinkArray := {}
 		Loop, % FilenameArray.MaxIndex()
 			LinkArray[FilenameArray[A_Index]] := URLArray[A_Index]
-		RegRead, PotPlayerPath, HKEY_LOCAL_MACHINE, SOFTWARE\DAUM\PotPlayer64, ProgramPath
-		if ErrorLevel
+		linkcount=0
+		for Filename, URL in LinkArray
 		{
-			MsgBox, PotPlayer is either not installed or it's not the 64-bit version.
-			ExitApp
+			linkcount++
 		}
+		TrayTip , URL2PP, % "Adding " . linkcount . " links to PotPlayer..." , 10
 		counter=0
 		for Filename, URL in LinkArray
 		{
