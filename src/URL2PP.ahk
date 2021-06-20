@@ -21,7 +21,7 @@ ClipChanged()
 	copiedtext=%clipboard%
 	if RegExMatch(copiedtext, "( |\t)") ; spaces in clipboard content
 		return
-	else if RegExMatch(copiedtext, "^https?:\/\/.*\.(mp4|mkv|avi|mpg|mpeg|ogg|wmv|m2ts|mts|ts|mov|rm|rmvb|m4v|vob|webm|flv|3gp)$") ; single URL
+	else if RegExMatch(copiedtext, "^https?:\/\/.*\.(mp4|mkv|avi|mpg|mpeg|m3u8|ogg|wmv|m2ts|mts|ts|mov|rm|rmvb|m4v|vob|webm|flv|3gp)[^\n ]*$") ; single URL
 	{
 		RegRead, PotPlayerPath, HKEY_LOCAL_MACHINE, SOFTWARE\DAUM\PotPlayer64, ProgramPath
 		if ErrorLevel
@@ -41,7 +41,7 @@ ClipChanged()
 				WinActivate, ahk_exe PotPlayerMini64.exe
 		}
 	}
-	else if RegExMatch(copiedtext, "^(https?:\/\/.*\.(mp4|mkv|avi|mpg|mpeg|ogg|wmv|m2ts|mts|ts|mov|rm|rmvb|m4v|vob|webm|flv|3gp)`r`n){1,}https?:\/\/.*\.(mp4|mkv|avi|mpg|mpeg|ogg|wmv|m2ts|mts|ts|mov|rm|rmvb|m4v|vob|webm|flv|3gp)$") ; multiple URLs
+	else if RegExMatch(copiedtext, "^(https?:\/\/.*\.(mp4|mkv|avi|mpg|mpeg|m3u8|ogg|wmv|m2ts|mts|ts|mov|rm|rmvb|m4v|vob|webm|flv|3gp)[^\n ]*`r`n){1,}https?:\/\/.*\.(mp4|mkv|avi|mpg|mpeg|m3u8|ogg|wmv|m2ts|mts|ts|mov|rm|rmvb|m4v|vob|webm|flv|3gp)[^\n ]*$") ; multiple URLs
 	{
 		temp := StrReplace(copiedtext,"/","\")
 		if WinExist("ahk_exe PotPlayerMini64.exe")
